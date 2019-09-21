@@ -7,6 +7,9 @@
     <title>Mensaje Recibido</title>
 </head>
 <body>
-    {{ var_dump ($msg) }}
+    <p>Recibiste un mensaje de : {{ $msg['nombre'] }} - {{ $msg['apellido'] }}</p>
+    <p><strong>Direccion : {{ $msg['direccion'] }}</strong></p>    
+    <p><strong>Cedula : {{ $msg['ci'] }}</strong></p>    
+    <p><strong>Celular : {{ $msg['celular'] }}</strong></p>    
 </body>
 </html>

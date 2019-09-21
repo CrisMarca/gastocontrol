@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Contacto;
-use App\Mail\MessageReceived;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Session;
+use App\Contacto;
+
+use Illuminate\Http\Request;
+use App\Mail\MessageReceived;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\CreateContactoRequest;
 
 class ContactoController extends Controller
 {
@@ -37,18 +39,10 @@ class ContactoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateContactoRequest $request)
     {
-        $datos = request()->validate([
-            'name' => 'required',
-            'lastname' => 'required',
-            'address' => 'required',
-            'cia' => 'required',
-            'cellphone' => 'required',
-        ]);
-        
-        Mail::to('marcacristian70@gmail.com')->send(new MessageReceived($datos));
-
+        Contacto::create($request->validated());                
+        Mail::to('marcacristian70@gmail.com')->send(new MessageReceived($request->validated()));
         $datos=Contacto::all();
         return view('contacto.index', compact('datos'));
     }
@@ -82,13 +76,14 @@ class ContactoController extends Controller
      * @param  \App\Contacto  $contacto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Contacto $contacto)
+    public function update(CreateContactoRequest $request, Contacto $contacto)
     {        
-        $contacto->nombre      =$request->name;
-        $contacto->apellido    =$request->lastname;
-        $contacto->direccion   =$request->address;
-        $contacto->ci          =$request->cia;
-        $contacto->celular     =$request->cellphone;
+        $request->validated();
+        $contacto->nombre      =$request->nombre;
+        $contacto->apellido    =$request->apellido;
+        $contacto->direccion   =$request->direccion;
+        $contacto->ci          =$request->ci;
+        $contacto->celular     =$request->celular;
         $contacto->save();        
         $datos=Contacto::all();
         return view('contacto.index', compact('datos'));
