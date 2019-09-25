@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Gasto;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateGastoRequest;
 
 class GastoController extends Controller
 {
@@ -15,7 +15,8 @@ class GastoController extends Controller
     public function index()
     {
         $datos=Gasto::all();
-        return view('gasto.index',compact('datos'));
+        $suma=Gasto::sum('monto_g');
+        return view('gasto.index',compact('datos', 'suma'));
     }
 
     /**
@@ -25,7 +26,9 @@ class GastoController extends Controller
      */
     public function create()
     {
-        return view('gasto.create');
+        return view('gasto.create',[
+            'gasto' => new Gasto
+        ]);
     }
 
     /**
@@ -34,16 +37,12 @@ class GastoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $datos = new Gasto();
-        $datos->nombre_g        =$request->name;
-        $datos->descripcion_g   =$request->description;
-        $datos->fecha_g        =$request->date;
-        $datos->monto_g        =$request->mount;
-        $datos->save();
+    public function store(CreateGastoRequest $request)
+    {        
+        Gasto::create($request->validated());        
         $datos=Gasto::all();
-        return view('gasto.index', compact('datos'));
+        $suma=Gasto::sum('monto_g');
+        return view('gasto.index',compact('datos', 'suma'));
     }
 
     /**
@@ -75,15 +74,13 @@ class GastoController extends Controller
      * @param  \App\Gasto  $gasto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Gasto $gasto)
+    public function update(CreateGastoRequest $request, Gasto $gasto)
     {
-        $gasto->nombre_g        =$request->name;
-        $gasto->descripcion_g   =$request->description;
-        $gasto->fecha_g         =$request->date;
-        $gasto->monto_g         =$request->mount;
+        $gasto->fill($request->validated());
         $gasto->save();
         $datos=Gasto::all();
-        return view('gasto.index', compact('datos'));
+        $suma=Gasto::sum('monto_g');
+        return view('gasto.index',compact('datos', 'suma'));
     }
 
     /**
@@ -96,6 +93,7 @@ class GastoController extends Controller
     {
         $gasto->delete();
         $datos=Gasto::all();
-        return view('gasto.index', compact('datos'));
+        $suma=Gasto::sum('monto_g');
+        return view('gasto.index',compact('datos', 'suma'));
     }
 }

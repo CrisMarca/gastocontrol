@@ -24,11 +24,19 @@ class CreateContactoRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre' => 'required',
+            'nombre' => 'required|unique:contactos,nombre',
             'apellido' => 'required',
             'direccion' => 'required',
-            'ci' => 'required|min:7|numeric',
-            'celular' => 'required|min:7|numeric',
+            'ci' => 'required|numeric',
+            'celular' => 'required|numeric',
+        ]; 
+    }
+
+    public function messages()
+    {
+        return [
+        'ci.required' => 'El campo de la cedula de identidad es obligatorio y no puede estar vacio',        
+        'nombre.unique' => 'Este nombre ya esta en uso',
         ];
     }
 }

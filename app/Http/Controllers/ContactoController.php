@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Session;
 use App\Contacto;
-
+use App\Gasto;
+use App\Ingreso;
 use Illuminate\Http\Request;
 use App\Mail\MessageReceived;
 use Illuminate\Support\Facades\Mail;
@@ -20,7 +19,8 @@ class ContactoController extends Controller
     public function index()
     {
         $datos = Contacto::all();
-        return view('contacto.index', compact('datos'));
+        $suma = Ingreso::sum('monto_i') - Gasto::sum('monto_g');
+        return view('contacto.index', compact('datos','suma'));
     }
 
     /**
@@ -30,7 +30,10 @@ class ContactoController extends Controller
      */
     public function create()
     {
-        return view('contacto.create');
+        return view('contacto.create',
+        [
+            'contacto' => new Contacto
+        ]);
     }
 
     /**
@@ -77,13 +80,8 @@ class ContactoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(CreateContactoRequest $request, Contacto $contacto)
-    {        
-        $request->validated();
-        $contacto->nombre      =$request->nombre;
-        $contacto->apellido    =$request->apellido;
-        $contacto->direccion   =$request->direccion;
-        $contacto->ci          =$request->ci;
-        $contacto->celular     =$request->celular;
+    {                        
+        $contacto->fill($request->validated());        
         $contacto->save();        
         $datos=Contacto::all();
         return view('contacto.index', compact('datos'));

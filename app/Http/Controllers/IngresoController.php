@@ -15,7 +15,8 @@ class IngresoController extends Controller
     public function index()
     {
         $datos=Ingreso::all();
-        return view('ingreso.index', compact('datos'));
+        $suma=Ingreso::sum('monto_i');
+        return view('ingreso.index', compact('datos', 'suma'));
     }
 
     /**
@@ -43,7 +44,8 @@ class IngresoController extends Controller
         $datos->monto_i        =$request->mount;
         $datos->save();
         $datos=Ingreso::all();
-        return view('ingreso.index', compact('datos'));
+        $suma=Ingreso::sum('monto_i');
+        return view('ingreso.index', compact('datos', 'suma'));
     }
 
     /**
@@ -83,7 +85,8 @@ class IngresoController extends Controller
         $ingreso->monto_i         =$request->mount;
         $ingreso->save();
         $datos=Ingreso::all();
-        return view('ingreso.index', compact('datos'));
+        $suma=Ingreso::sum('monto_i');
+        return view('ingreso.index', compact('datos', 'suma'));
     }
 
     /**
