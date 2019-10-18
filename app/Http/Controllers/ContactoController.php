@@ -11,6 +11,21 @@ use App\Http\Requests\CreateContactoRequest;
 
 class ContactoController extends Controller
 {
+    public function redirectToProvider($provider)
+    {
+        config(['services.' . $provider . '.redirect' => route('provider.callback', [$provider])]);
+        return Socialite::driver($provider)->redirect();
+    }
+
+    /**
+    * Get the user information from provider.
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function handleProviderCallback($provider)
+    {
+        $user = Socialite::driver($provider)->user();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -46,8 +61,9 @@ class ContactoController extends Controller
     {
         Contacto::create($request->validated());                
         Mail::to('marcacristian70@gmail.com')->send(new MessageReceived($request->validated()));
-        $datos=Contacto::all();
-        return view('contacto.index', compact('datos'));
+        $datos = Contacto::all();
+        $suma = Ingreso::sum('monto_i') - Gasto::sum('monto_g');
+        return view('contacto.index', compact('datos','suma'));
     }
 
     /**
@@ -83,8 +99,9 @@ class ContactoController extends Controller
     {                        
         $contacto->fill($request->validated());        
         $contacto->save();        
-        $datos=Contacto::all();
-        return view('contacto.index', compact('datos'));
+        $datos = Contacto::all();
+        $suma = Ingreso::sum('monto_i') - Gasto::sum('monto_g');
+        return view('contacto.index', compact('datos','suma'));
     }
 
     /**
@@ -96,7 +113,8 @@ class ContactoController extends Controller
     public function destroy(Contacto $contacto)
     {        
         $contacto->delete();
-        $datos=contacto::all();        
-        return view('contacto.index',compact('datos'));
+        $datos = Contacto::all();
+        $suma = Ingreso::sum('monto_i') - Gasto::sum('monto_g');
+        return view('contacto.index', compact('datos','suma'));
     }
 }

@@ -29,5 +29,9 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
-
+    'facebook' => [
+        'client_id' => '639104663285606',
+        'client_secret' => '4a0aeb80629680f79fb706d51c88c4ca' ,
+        'redirect' => 'http://gastocontrol.test:8888/auth/login/facebook/callback'
+    ]
 ];

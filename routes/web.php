@@ -1,5 +1,7 @@
 <?php
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,6 +16,17 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/politica-de-privacidad', function () {
+    return view('layout.politica-de-privacidad');
+});
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('login/facebook', 'Auth\LoginController@redirectToProvider');
+Route::get('login/facebook/callback', 'Auth\LoginController@handleProviderCallback');
+
 Route::resource('/contacto', 'ContactoController');
 Route::resource('/gasto', 'GastoController');
 Route::resource('/ingreso', 'IngresoController');

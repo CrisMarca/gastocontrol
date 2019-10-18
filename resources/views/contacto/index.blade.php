@@ -3,7 +3,7 @@
 @section('content')   
 <div class="container bg-ligth shadow mt-5 py-3">
     <div class="d-flex justify-content-between align-items-center py-3">
-        <h2 class="text-center">Lista de Contacto <span class="badge badge-info"> {{ $suma }} </span></h2>
+        <h2 class="text-center">Lista de Contacto </h2>
         <a href="/contacto/create" class="btn btn-primary">
             Nuevo Contacto
         </a>
@@ -28,7 +28,7 @@
                             <button class="btn btn-primary">Ver Contacto</button>
                         </form>
                     </th>
-                    <td class="align-middle">{{$dato->nombre}}</td>
+                    <td class="align-middle">{{$dato->nombre}} <span class="badge badge-info"> {{ $suma }} </span></td>
                     <td class="align-middle">{{$dato->ci}}</td>
                     <td class="form-inline">
                         <form action="/contacto/{{$dato->id}}/edit">

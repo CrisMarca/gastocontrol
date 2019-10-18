@@ -18,6 +18,9 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
+                    <a class="nav-link" href="/">HOME</a>
+                </li>                
+                <li class="nav-item">
                     <a class="nav-link" href="/contacto">Contactos <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
@@ -25,7 +28,10 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/gasto">Gastos</a>
-                </li>
+                </li>                
+                <li class="nav-item">
+                    <a class="nav-link" href="/politica-de-privacidad">Politica de privacidad</a>
+                </li>                
             </ul>
         </div>
     </nav>

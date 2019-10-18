@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mt-4">
     <div class="d-flex justify-content-between">
-        <h3>Tabla de Ingresos <span class="badge badge-primary"> {{ $suma }} </span></h3>
+        <h3>Tabla de Ingresos</h3>
         <a href="/ingreso/create" class="btn btn-primary mb-1">Nuevo Ingreso</a>
     </div>
     <div class="table-responsive">
@@ -26,7 +26,7 @@
                                 <button class="btn btn-primary">Ver Ingreso</button>
                             </form>
                         </th>
-                        <td class="align-middle">{{$dato->nombre_i}}</td>
+                        <td class="align-middle">{{$dato->nombre_i}}  <span class="badge badge-primary"> {{ $suma }} </span></td>
                         <td class="align-middle">{{$dato->fecha_i}}</td>
                         <td class="form-inline">                    
                             <form action="/ingreso/{{$dato->id}}/edit" method="POST">
